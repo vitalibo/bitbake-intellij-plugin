@@ -1,0 +1,2 @@
+# BitBake IntelliJ Plugin
+
