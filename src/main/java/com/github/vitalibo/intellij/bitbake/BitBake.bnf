@@ -1,0 +1,18 @@
+{
+  parserClass="com.github.vitalibo.intellij.bitbake.parser.BitBakeParser"
+
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+  psiClassPrefix="BitBake"
+  psiImplClassSuffix="Impl"
+  psiPackage="com.github.vitalibo.intellij.bitbake.psi"
+  psiImplPackage="com.github.vitalibo.intellij.bitbake.psi.impl"
+
+  elementTypeHolderClass="com.github.vitalibo.intellij.bitbake.psi.BitBakeTypes"
+  elementTypeClass="com.github.vitalibo.intellij.bitbake.psi.BitBakeElementType"
+  tokenTypeClass="com.github.vitalibo.intellij.bitbake.psi.BitBakeTokenType"
+}
+
+bitbakeFile ::= item_*
+private item_ ::= (variable|COMMENT|CRLF)
+variable ::= (KEY OPERATOR VALUE)

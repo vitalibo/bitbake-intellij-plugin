@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'org.jetbrains.intellij' version '0.4.21'
+    id 'org.jetbrains.grammarkit' version '2020.2.1'
 }
 
 group 'com.github.vitalibo'
@@ -20,12 +21,38 @@ dependencies {
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.12'
 }
 
+sourceSets.main.java.srcDirs 'src/main/gen'
+
 intellij {
     version '2020.1.3'
+    pluginName 'BitBake'
 }
 
 patchPluginXml {
     changeNotes """
       Add change notes here.<br>
       <em>most HTML tags may be used</em>"""
+}
+
+import org.jetbrains.grammarkit.tasks.GenerateLexer
+import org.jetbrains.grammarkit.tasks.GenerateParser
+
+task generateBitBakeLexer(type: GenerateLexer) {
+    source = "src/main/java/com/github/vitalibo/intellij/bitbake/BitBake.flex"
+    targetDir = 'src/main/gen/com/github/vitalibo/intellij/bitbake'
+    targetClass = "BitBakeLexer"
+    purgeOldFiles = true
+}
+
+task generateBitBakeParser(type: GenerateParser) {
+    source = "src/main/java/com/github/vitalibo/intellij/bitbake/BitBake.bnf"
+    targetRoot = 'src/main/gen'
+    pathToParser = '/com/github/vitalibo/intellij/bitbake/parser/BitBakeParser.java'
+    pathToPsiRoot = '/com/github/vitalibo/intellij/bitbake/psi'
+    purgeOldFiles = true
+}
+
+compileJava {
+    dependsOn generateBitBakeLexer
+    dependsOn generateBitBakeParser
 }

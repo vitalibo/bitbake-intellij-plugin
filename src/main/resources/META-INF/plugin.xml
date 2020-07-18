@@ -11,21 +11,30 @@
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <fileType name="BitBake Recipe"
-                  implementationClass="com.github.vitalibo.intellij.bitbake.BitBakeRecipeFileType"
-                  fieldName="Instance"
-                  language="BitBake"
-                  extensions="bb"/>
-        <fileType name="BitBake Append"
-                  implementationClass="com.github.vitalibo.intellij.bitbake.BitBakeAppendFileType"
-                  fieldName="Instance"
-                  language="BitBake"
-                  extensions="bbappend"/>
-        <fileType name="BitBake Class"
-                  implementationClass="com.github.vitalibo.intellij.bitbake.BitBakeClassFileType"
-                  fieldName="Instance"
-                  language="BitBake"
-                  extensions="bbclass"/>
+        <fileType
+                name="BitBake Recipe"
+                implementationClass="com.github.vitalibo.intellij.bitbake.BitBakeRecipeFileType"
+                fieldName="Instance"
+                language="BitBake"
+                extensions="bb"/>
+        <fileType
+                name="BitBake Append"
+                implementationClass="com.github.vitalibo.intellij.bitbake.BitBakeAppendFileType"
+                fieldName="Instance"
+                language="BitBake"
+                extensions="bbappend"/>
+        <fileType
+                name="BitBake Class"
+                implementationClass="com.github.vitalibo.intellij.bitbake.BitBakeClassFileType"
+                fieldName="Instance"
+                language="BitBake"
+                extensions="bbclass"/>
+        <lang.parserDefinition
+                language="BitBake"
+                implementationClass="com.github.vitalibo.intellij.bitbake.BitBakeRecipeParserDefinition"/>
+        <lang.syntaxHighlighterFactory
+                language="BitBake"
+                implementationClass="com.github.vitalibo.intellij.bitbake.BitBakeSyntaxHighlighterFactory"/>
     </extensions>
 
     <actions>
