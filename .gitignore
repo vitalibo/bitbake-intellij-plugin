@@ -1,0 +1,11 @@
+.DS_Store
+.idea
+*.iml
+*.iws
+*Run.java
+*target
+.gradle
+build
+gradle
+gradlew
+gradlew.bat

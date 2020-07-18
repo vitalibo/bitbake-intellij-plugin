@@ -1,0 +1,34 @@
+<idea-plugin>
+    <id>com.github.vitalibo.bitbake-intellij-plugin</id>
+    <name>BitBake</name>
+    <vendor email="boyarsky.vitaliy@live.com"
+            url="https://github.com/vitalibo/bitbake-intellij-plugin">
+        Vitaliy Boyarsky
+    </vendor>
+
+    <description><![CDATA[ Description will be added by gradle build]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <fileType name="BitBake Recipe"
+                  implementationClass="com.github.vitalibo.intellij.bitbake.BitBakeRecipeFileType"
+                  fieldName="Instance"
+                  language="BitBake"
+                  extensions="bb"/>
+        <fileType name="BitBake Append"
+                  implementationClass="com.github.vitalibo.intellij.bitbake.BitBakeAppendFileType"
+                  fieldName="Instance"
+                  language="BitBake"
+                  extensions="bbappend"/>
+        <fileType name="BitBake Class"
+                  implementationClass="com.github.vitalibo.intellij.bitbake.BitBakeClassFileType"
+                  fieldName="Instance"
+                  language="BitBake"
+                  extensions="bbclass"/>
+    </extensions>
+
+    <actions>
+    </actions>
+
+</idea-plugin>
