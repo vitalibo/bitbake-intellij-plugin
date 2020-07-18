@@ -13,22 +13,22 @@ import org.jetbrains.annotations.NotNull;
 import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAttributesKey;
 
 public class BitBakeSyntaxHighlighter extends SyntaxHighlighterBase {
-    public static final TextAttributesKey SEPARATOR =
-        createTextAttributesKey("SIMPLE_SEPARATOR", DefaultLanguageHighlighterColors.OPERATION_SIGN);
-    public static final TextAttributesKey KEY =
-        createTextAttributesKey("SIMPLE_KEY", DefaultLanguageHighlighterColors.KEYWORD);
-    public static final TextAttributesKey VALUE =
-        createTextAttributesKey("SIMPLE_VALUE", DefaultLanguageHighlighterColors.STRING);
-    public static final TextAttributesKey COMMENT =
-        createTextAttributesKey("SIMPLE_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT);
-    public static final TextAttributesKey BAD_CHARACTER =
-        createTextAttributesKey("SIMPLE_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER);
 
+    public static final TextAttributesKey ASSIGNMENT_OPERATOR =
+        createTextAttributesKey("BB_ASSIGNMENT_OPERATOR", DefaultLanguageHighlighterColors.OPERATION_SIGN);
+    public static final TextAttributesKey VARIABLE_NAME =
+        createTextAttributesKey("BB_VARIABLE_NAME", DefaultLanguageHighlighterColors.CONSTANT);
+    public static final TextAttributesKey VARIABLE_VALUE =
+        createTextAttributesKey("BB_VARIABLE_VALUE", DefaultLanguageHighlighterColors.STRING);
+    public static final TextAttributesKey COMMENT =
+        createTextAttributesKey("BB_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT);
+    public static final TextAttributesKey BAD_CHARACTER =
+        createTextAttributesKey("BB_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER);
 
     private static final TextAttributesKey[] BAD_CHAR_KEYS = new TextAttributesKey[]{BAD_CHARACTER};
-    private static final TextAttributesKey[] SEPARATOR_KEYS = new TextAttributesKey[]{SEPARATOR};
-    private static final TextAttributesKey[] KEY_KEYS = new TextAttributesKey[]{KEY};
-    private static final TextAttributesKey[] VALUE_KEYS = new TextAttributesKey[]{VALUE};
+    private static final TextAttributesKey[] ASSIGNMENT_OPERATOR_KEYS = new TextAttributesKey[]{ASSIGNMENT_OPERATOR};
+    private static final TextAttributesKey[] VARIABLE_KEY_KEYS = new TextAttributesKey[]{VARIABLE_NAME};
+    private static final TextAttributesKey[] VARIABLE_VALUE_KEYS = new TextAttributesKey[]{VARIABLE_VALUE};
     private static final TextAttributesKey[] COMMENT_KEYS = new TextAttributesKey[]{COMMENT};
     private static final TextAttributesKey[] EMPTY_KEYS = new TextAttributesKey[0];
 
@@ -42,11 +42,11 @@ public class BitBakeSyntaxHighlighter extends SyntaxHighlighterBase {
     @Override
     public TextAttributesKey[] getTokenHighlights(IElementType tokenType) {
         if (tokenType.equals(BitBakeTypes.OPERATOR)) {
-            return SEPARATOR_KEYS;
+            return ASSIGNMENT_OPERATOR_KEYS;
         } else if (tokenType.equals(BitBakeTypes.KEY)) {
-            return KEY_KEYS;
+            return VARIABLE_KEY_KEYS;
         } else if (tokenType.equals(BitBakeTypes.VALUE)) {
-            return VALUE_KEYS;
+            return VARIABLE_VALUE_KEYS;
         } else if (tokenType.equals(BitBakeTypes.COMMENT)) {
             return COMMENT_KEYS;
         } else if (tokenType.equals(TokenType.BAD_CHARACTER)) {

@@ -35,6 +35,9 @@
         <lang.syntaxHighlighterFactory
                 language="BitBake"
                 implementationClass="com.github.vitalibo.intellij.bitbake.BitBakeSyntaxHighlighterFactory"/>
+        <lang.commenter
+                language="BitBake"
+                implementationClass="com.github.vitalibo.intellij.bitbake.BitBakeCommenter"/>
     </extensions>
 
     <actions>
