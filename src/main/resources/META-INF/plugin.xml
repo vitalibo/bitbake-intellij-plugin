@@ -38,6 +38,9 @@
         <lang.commenter
                 language="BitBake"
                 implementationClass="com.github.vitalibo.intellij.bitbake.BitBakeCommenter"/>
+        <completion.contributor
+                language="BitBake"
+                implementationClass="com.github.vitalibo.intellij.bitbake.BitBakeCompletionContributor"/>
     </extensions>
 
     <actions>
