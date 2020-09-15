@@ -10,6 +10,7 @@ public class BitBakeIcons {
     public static final @NotNull Icon Recipe = load("/fileTypes/bb.svg");
     public static final @NotNull Icon Append = load("/fileTypes/bbappend.svg");
     public static final @NotNull Icon Class = load("/fileTypes/bbclass.svg");
+    public static final @NotNull Icon Inc = load("/fileTypes/bbinc.svg");
 
     private BitBakeIcons() {
     }

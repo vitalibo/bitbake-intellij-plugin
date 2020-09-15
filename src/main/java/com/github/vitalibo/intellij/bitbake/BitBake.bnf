@@ -11,8 +11,18 @@
   elementTypeHolderClass="com.github.vitalibo.intellij.bitbake.psi.BitBakeTypes"
   elementTypeClass="com.github.vitalibo.intellij.bitbake.psi.BitBakeElementType"
   tokenTypeClass="com.github.vitalibo.intellij.bitbake.psi.BitBakeTokenType"
+  mixin("bbBashFunction")="com.github.vitalibo.intellij.bitbake.psi.BitBakeBashFunctionImpl"
+  mixin("bbPyFunction")="com.github.vitalibo.intellij.bitbake.psi.BitBakePythonFunctionImpl"
+  mixin("bbDefPyFunction")="com.github.vitalibo.intellij.bitbake.psi.BitBakeNativePythonFunctionImpl"
 }
 
 bitbakeFile ::= item_*
-private item_ ::= (variable|COMMENT|CRLF)
-variable ::= (KEY OPERATOR VALUE)
+private item_ ::= (variable|bbFunction|bbStatement|keyword|COMMENT|CRLF)
+variable ::= (EXPORT? KEY OPERATOR VALUE)
+bbFunction ::= (bbBashFunction | bbPyFunction | bbDefPyFunction)
+bbBashFunction ::= (BB_FUNCTION_NAME LB RB LBB FB+ RBB)
+bbPyFunction ::= (PYTHON BB_FUNCTION_NAME? LB RB LBB FB+ RBB)
+bbDefPyFunction ::= (DEF BB_FUNCTION_NAME LB bbDefParam* RB LBB FB+ RBB)
+bbDefParam ::= (BB_FUNCTION_NAME COMMA?)+
+keyword ::= (INHERIT|INCLUDE|REQUIRE|EXPORT) INCLUDE_REST
+bbStatement ::= (STATEMENT (STATEMENT | STATEMENT_REST))

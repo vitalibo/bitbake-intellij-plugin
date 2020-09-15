@@ -8,7 +8,7 @@
 
     <description><![CDATA[ Description will be added by gradle build]]></description>
 
-    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.python-core-capable</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <fileType
@@ -29,6 +29,12 @@
                 fieldName="Instance"
                 language="BitBake"
                 extensions="bbclass"/>
+        <fileType
+                name="BitBake Inc"
+                implementationClass="com.github.vitalibo.intellij.bitbake.BitBakeIncFileType"
+                fieldName="Instance"
+                language="BitBake"
+                extensions="inc"/>
         <lang.parserDefinition
                 language="BitBake"
                 implementationClass="com.github.vitalibo.intellij.bitbake.BitBakeRecipeParserDefinition"/>
@@ -41,6 +47,8 @@
         <completion.contributor
                 language="BitBake"
                 implementationClass="com.github.vitalibo.intellij.bitbake.BitBakeCompletionContributor"/>
+        <languageInjector
+                implementation="com.github.vitalibo.intellij.bitbake.BitBakeLanguageInjector"/>
     </extensions>
 
     <actions>
