@@ -62,12 +62,12 @@ KEY_CHARACTER=[^?=:+.\ \n\t\f\\\(\)] | "\\ "
 
 <PY_FUNCTION> {
   \n\n+ { yybegin(YYINITIAL); return BitBakeTypes.RBB; }
-  .|\n { return BitBakeTypes.FB; }
+  [^] { return BitBakeTypes.FB; }
 }
 
 <FUNCTION_VALUE> {
   ^\} { yybegin(YYINITIAL); return BitBakeTypes.RBB; }
-  .|\n { return BitBakeTypes.FB; }
+  [^] { return BitBakeTypes.FB; }
 }
 
 <YYINITIAL> {KEY_CHARACTER}+ { return BitBakeTypes.KEY; }

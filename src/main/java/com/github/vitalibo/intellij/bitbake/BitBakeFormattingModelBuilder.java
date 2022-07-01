@@ -12,14 +12,14 @@ public class BitBakeFormattingModelBuilder implements FormattingModelBuilder {
 
     @NotNull
     @Override
-    public FormattingModel createModel(PsiElement element, CodeStyleSettings settings) {
+    public FormattingModel createModel(@NotNull FormattingContext formattingContext) {
         return FormattingModelProvider
-            .createFormattingModelForPsiFile(element.getContainingFile(),
-                new BitBakeBlock(element.getNode(),
+            .createFormattingModelForPsiFile(formattingContext.getPsiElement().getContainingFile(),
+                new BitBakeBlock(formattingContext.getPsiElement().getNode(),
                     Wrap.createWrap(WrapType.NONE, false),
                     Alignment.createAlignment(),
-                    createSpaceBuilder(settings)),
-                settings);
+                    createSpaceBuilder(formattingContext.getCodeStyleSettings())),
+                formattingContext.getCodeStyleSettings());
     }
 
     private static SpacingBuilder createSpaceBuilder(CodeStyleSettings settings) {

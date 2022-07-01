@@ -22,6 +22,12 @@ public class BitBakeAppendFileType extends LanguageFileType {
 
     @NotNull
     @Override
+    public String getDisplayName() {
+        return "BitBake Append";
+    }
+
+    @NotNull
+    @Override
     public String getDescription() {
         return "BitBake recipe append file";
     }
