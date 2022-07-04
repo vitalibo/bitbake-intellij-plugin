@@ -22,6 +22,12 @@ public class BitBakeIncFileType extends LanguageFileType {
 
     @NotNull
     @Override
+    public String getDisplayName() {
+        return "BitBake Inc";
+    }
+
+    @NotNull
+    @Override
     public String getDescription() {
         return "BitBake include file";
     }

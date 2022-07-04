@@ -1,58 +1,68 @@
 plugins {
     id 'java'
-    id 'org.jetbrains.intellij' version '0.4.21'
-    id 'org.jetbrains.grammarkit' version '2020.2.1'
+    id 'org.jetbrains.intellij' version '1.6.0'
+    id 'org.jetbrains.grammarkit' version '2021.2.2'
 }
 
 group 'com.github.vitalibo'
-version '1.0-SNAPSHOT'
+version (project.hasProperty('version') ? project.getProperty('version') : '1.1-SNAPSHOT')
+
+sourceCompatibility = '1.11'
+targetCompatibility = '1.11'
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    testCompile group: 'org.testng', name: 'testng', version: '7.1.0'
+    testImplementation 'org.testng:testng:7.6.0'
 
-    compileOnly 'org.projectlombok:lombok:1.18.12'
-    annotationProcessor 'org.projectlombok:lombok:1.18.12'
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
 
-    testCompileOnly 'org.projectlombok:lombok:1.18.12'
-    testAnnotationProcessor 'org.projectlombok:lombok:1.18.12'
+    testCompileOnly 'org.projectlombok:lombok:1.18.24'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
 }
 
 sourceSets.main.java.srcDirs 'src/main/gen'
 
 intellij {
-    version '2020.1.3'
-    pluginName 'BitBake'
+    version = '2022.1.3'
+    pluginName = 'BitBake'
+    updateSinceUntilBuild = false
 }
 
-patchPluginXml {
-    changeNotes """
-      Add change notes here.<br>
-      <em>most HTML tags may be used</em>"""
-}
+tasks {
 
-import org.jetbrains.grammarkit.tasks.GenerateLexer
-import org.jetbrains.grammarkit.tasks.GenerateParser
+    tasks.withType(JavaCompile) {
+        sourceCompatibility = "11"
+        targetCompatibility = "11"
 
-task generateBitBakeLexer(type: GenerateLexer) {
-    source = "src/main/java/com/github/vitalibo/intellij/bitbake/BitBake.flex"
-    targetDir = 'src/main/gen/com/github/vitalibo/intellij/bitbake'
-    targetClass = "BitBakeLexer"
-    purgeOldFiles = true
-}
+        dependsOn generateLexer
+        dependsOn generateParser
+    }
 
-task generateBitBakeParser(type: GenerateParser) {
-    source = "src/main/java/com/github/vitalibo/intellij/bitbake/BitBake.bnf"
-    targetRoot = 'src/main/gen'
-    pathToParser = '/com/github/vitalibo/intellij/bitbake/parser/BitBakeParser.java'
-    pathToPsiRoot = '/com/github/vitalibo/intellij/bitbake/psi'
-    purgeOldFiles = true
-}
+    patchPluginXml {
+        sinceBuild = '201'
+        pluginDescription = """Highlight .bb/.bbappend/.bbclass/.inc files in JetBrains IDEs to make working with
+                               BitBake-based projects (like anything based on Yocto Project) easier."""
+        changeNotes = """First marketplace release, now with updated dependencies & without strict maximum version
+                         limitation."""
+    }
 
-compileJava {
-    dependsOn generateBitBakeLexer
-    dependsOn generateBitBakeParser
+    generateLexer {
+        source = "src/main/java/com/github/vitalibo/intellij/bitbake/BitBake.flex"
+        targetDir = 'src/main/gen/com/github/vitalibo/intellij/bitbake'
+        targetClass = "BitBakeLexer"
+        purgeOldFiles = true
+    }
+
+    generateParser {
+        source = "src/main/java/com/github/vitalibo/intellij/bitbake/BitBake.bnf"
+        targetRoot = 'src/main/gen'
+        pathToParser = '/com/github/vitalibo/intellij/bitbake/parser/BitBakeParser.java'
+        pathToPsiRoot = '/com/github/vitalibo/intellij/bitbake/psi'
+        purgeOldFiles = true
+    }
+
 }

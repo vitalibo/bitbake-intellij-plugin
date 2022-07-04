@@ -22,6 +22,12 @@ public class BitBakeRecipeFileType extends LanguageFileType {
 
     @NotNull
     @Override
+    public String getDisplayName() {
+        return "BitBake Recipe";
+    }
+
+    @NotNull
+    @Override
     public String getDescription() {
         return "BitBake recipe file";
     }
