@@ -32,31 +32,37 @@ intellij {
     updateSinceUntilBuild = false
 }
 
-patchPluginXml {
-    sinceBuild = '201.0'
-    pluginDescription = """
-      Highlight .bb/.bbappend/.bbclass/.inc files in JetBrains IDEs to make working with BitBake-based projects (like
-anything based on Yocto Project) easier."""
-    changeNotes = """
-      First marketplace release, now with updated dependencies & without strict maximum version limitation."""
-}
+tasks {
 
-generateLexer {
-    source = "src/main/java/com/github/vitalibo/intellij/bitbake/BitBake.flex"
-    targetDir = 'src/main/gen/com/github/vitalibo/intellij/bitbake'
-    targetClass = "BitBakeLexer"
-    purgeOldFiles = true
-}
+    tasks.withType(JavaCompile) {
+        sourceCompatibility = "11"
+        targetCompatibility = "11"
 
-generateParser {
-    source = "src/main/java/com/github/vitalibo/intellij/bitbake/BitBake.bnf"
-    targetRoot = 'src/main/gen'
-    pathToParser = '/com/github/vitalibo/intellij/bitbake/parser/BitBakeParser.java'
-    pathToPsiRoot = '/com/github/vitalibo/intellij/bitbake/psi'
-    purgeOldFiles = true
-}
+        dependsOn generateLexer
+        dependsOn generateParser
+    }
 
-compileJava {
-    dependsOn generateLexer
-    dependsOn generateParser
+    patchPluginXml {
+        sinceBuild = '201'
+        pluginDescription = """Highlight .bb/.bbappend/.bbclass/.inc files in JetBrains IDEs to make working with
+                               BitBake-based projects (like anything based on Yocto Project) easier."""
+        changeNotes = """First marketplace release, now with updated dependencies & without strict maximum version
+                         limitation."""
+    }
+
+    generateLexer {
+        source = "src/main/java/com/github/vitalibo/intellij/bitbake/BitBake.flex"
+        targetDir = 'src/main/gen/com/github/vitalibo/intellij/bitbake'
+        targetClass = "BitBakeLexer"
+        purgeOldFiles = true
+    }
+
+    generateParser {
+        source = "src/main/java/com/github/vitalibo/intellij/bitbake/BitBake.bnf"
+        targetRoot = 'src/main/gen'
+        pathToParser = '/com/github/vitalibo/intellij/bitbake/parser/BitBakeParser.java'
+        pathToPsiRoot = '/com/github/vitalibo/intellij/bitbake/psi'
+        purgeOldFiles = true
+    }
+
 }
