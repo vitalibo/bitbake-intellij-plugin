@@ -8,7 +8,7 @@
 
     <description><![CDATA[ Description will be added by gradle build]]></description>
 
-    <depends>com.intellij.modules.python-core-capable</depends>
+    <depends>com.intellij.modules.lang</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <fileType

@@ -46,8 +46,7 @@ tasks {
         sinceBuild = '203'
         pluginDescription = """Highlight .bb/.bbappend/.bbclass/.inc files in JetBrains IDEs to make working with
                                BitBake-based projects (like anything based on Yocto Project) easier."""
-        changeNotes = """First marketplace release, now with updated dependencies & without strict maximum version
-                         limitation."""
+        changeNotes = """Fix compatibility with IDEA/PyCharm Ultimate."""
     }
 
     generateLexer {
