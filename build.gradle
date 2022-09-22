@@ -43,7 +43,7 @@ tasks {
     }
 
     patchPluginXml {
-        sinceBuild = '203'
+        sinceBuild = '213'
         pluginDescription = """Highlight .bb/.bbappend/.bbclass/.inc files in JetBrains IDEs to make working with
                                BitBake-based projects (like anything based on Yocto Project) easier."""
         changeNotes = """Fix compatibility with IDEA/PyCharm Ultimate."""
