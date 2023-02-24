@@ -65,4 +65,8 @@ tasks {
         purgeOldFiles = true
     }
 
+    buildSearchableOptions {
+        enabled = false
+    }
+
 }
