@@ -21,7 +21,7 @@ STR_START_CHAR=\"|\'
 VALUE_CHARACTER=[^\n\f\\\"] | "\\"{CRLF} | "\\".
 END_OF_LINE_COMMENT= (("#")[^\r\n]*)
 ASSIGNMENT_OPERATOR=("="|"?="|"??="|":="|"+="|"=+"|".="|"=.")
-KEY_CHARACTER=[^?=:+.\ \n\t\f\\\(\)] | "\\ "
+KEY_CHARACTER=[^?=+.\ \n\t\f\\\(\)] | "\\ "
 
 %state WAITING_VALUE FUNCTION_NAME PY_FUNCTION_NAME PY_FUNCTION FUNCTION_VALUE INCLUDE_VALUE STATEMENT_VALUE
 
