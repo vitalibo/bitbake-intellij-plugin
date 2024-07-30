@@ -32,7 +32,7 @@ KEY_CHARACTER=[^?=:+.\ \n\t\f\\\(\)] | "\\ "
 <YYINITIAL> "require" { yybegin(INCLUDE_VALUE); return BitBakeTypes.REQUIRE; }
 <YYINITIAL> "export" { return BitBakeTypes.EXPORT; }
 <YYINITIAL> "EXPORT_FUNCTIONS" { yybegin(INCLUDE_VALUE); return BitBakeTypes.EXPORT; }
-<YYINITIAL> addtask|addhandler|after|before { yybegin(STATEMENT_VALUE); return BitBakeTypes.STATEMENT; }
+<YYINITIAL> addtask|deltask|addhandler|after|before { yybegin(STATEMENT_VALUE); return BitBakeTypes.STATEMENT; }
 
 <INCLUDE_VALUE> .+ { yybegin(YYINITIAL); return BitBakeTypes.INCLUDE_REST; }
 <STATEMENT_VALUE> {WHITE_SPACE}+ { return TokenType.WHITE_SPACE; }
