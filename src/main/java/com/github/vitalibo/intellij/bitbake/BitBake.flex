@@ -22,6 +22,10 @@ VALUE_CHARACTER=[^\n\f\\\"] | "\\"{CRLF} | "\\".
 END_OF_LINE_COMMENT= (("#")[^\r\n]*)
 ASSIGNMENT_OPERATOR=("="|"?="|"??="|":="|"+="|"=+"|".="|"=.")
 KEY_CHARACTER=[^?=:+.\ \n\t\f\\\(\)] | "\\ "
+OVERRIDE=(":" {KEY_CHARACTER}+)
+BROKEN_OVERRIDE=(":"+ {KEY_CHARACTER}+)
+FN_NAME=([\w\.\-\+\{\}\$]+)
+FN_TOKEN=({FN_NAME} {BROKEN_OVERRIDE}*)
 
 %state WAITING_VALUE FUNCTION_NAME PY_FUNCTION_NAME PY_FUNCTION FUNCTION_VALUE INCLUDE_VALUE STATEMENT_VALUE
 
@@ -38,7 +42,7 @@ KEY_CHARACTER=[^?=:+.\ \n\t\f\\\(\)] | "\\ "
 <STATEMENT_VALUE> {WHITE_SPACE}+ { return TokenType.WHITE_SPACE; }
 <STATEMENT_VALUE> [^\ \n\t\f]+ { yybegin(YYINITIAL); return BitBakeTypes.STATEMENT_REST; }
 
-<YYINITIAL> ^((python|fakeroot)\s*)*([\w\.\-\+\{\}\$]+)?\s*\(\s*\)\s*\{$  { yypushback(yylength()); yybegin(FUNCTION_NAME); }
+<YYINITIAL> ^((python|fakeroot)\s*)*({FN_TOKEN})?\s*\(\s*\)\s*\{$  { yypushback(yylength()); yybegin(FUNCTION_NAME); }
 <YYINITIAL> ^(def\s+)([0-9A-Za-z_-]+)(\s*\(.*\)\s*):\s*  { yypushback(yylength()); yybegin(PY_FUNCTION_NAME); }
 
 <FUNCTION_NAME> {
@@ -46,6 +50,7 @@ KEY_CHARACTER=[^?=:+.\ \n\t\f\\\(\)] | "\\ "
   "(" { return BitBakeTypes.LB; }
   ")" { return BitBakeTypes.RB; }
   "{" { yybegin(FUNCTION_VALUE); return BitBakeTypes.LBB; }
+  {OVERRIDE} { return BitBakeTypes.OVERRIDE; }
   [\w\.\-\+\{\}\$]+ { return BitBakeTypes.BB_FUNCTION_NAME; }
   {WHITE_SPACE}+ { return TokenType.WHITE_SPACE; }
 }
