@@ -18,7 +18,7 @@
 
 bitbakeFile ::= item_*
 private item_ ::= (variable|bbFunction|bbStatement|keyword|COMMENT|CRLF)
-variable ::= (EXPORT? KEY OPERATOR VALUE)
+variable ::= (EXPORT? KEY OVERRIDE* OPERATOR VALUE)
 bbFunction ::= (bbBashFunction | bbPyFunction | bbDefPyFunction)
 bbBashFunction ::= (BB_FUNCTION_NAME OVERRIDE* LB RB LBB FB+ RBB)
 bbPyFunction ::= (PYTHON (BB_FUNCTION_NAME OVERRIDE*)? LB RB LBB FB+ RBB)
