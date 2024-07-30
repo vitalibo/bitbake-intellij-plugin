@@ -47,6 +47,7 @@ FN_TOKEN=({FN_NAME} {BROKEN_OVERRIDE}*)
 
 <FUNCTION_NAME> {
   "python" { return BitBakeTypes.PYTHON; }
+  "fakeroot" { return BitBakeTypes.FAKEROOT; }
   "(" { return BitBakeTypes.LB; }
   ")" { return BitBakeTypes.RB; }
   "{" { yybegin(FUNCTION_VALUE); return BitBakeTypes.LBB; }
