@@ -68,6 +68,7 @@ VALUE=(("'" {VALUE_CHARACTER}* "'") | (\" {VALUE_CHARACTER}* \"))
 
 <PY_FUNCTION> {
   \n\n+ { yybegin(YYINITIAL); return BitBakeTypes.RBB; }
+  {CRLF} | {WHITE_SPACE}+ { return TokenType.WHITE_SPACE; }
   [^] { return BitBakeTypes.FB; }
 }
 
@@ -80,8 +81,8 @@ VALUE=(("'" {VALUE_CHARACTER}* "'") | (\" {VALUE_CHARACTER}* \"))
 <YYINITIAL> {KEY_CHARACTER}+ { return BitBakeTypes.KEY; }
 <YYINITIAL> {OVERRIDE} { return BitBakeTypes.OVERRIDE; }
 <YYINITIAL> {ASSIGNMENT_OPERATOR} { yybegin(WAITING_VALUE); return BitBakeTypes.OPERATOR; }
+<YYINITIAL> {CRLF} | {WHITE_SPACE}+ { return TokenType.WHITE_SPACE; }
 <WAITING_VALUE> {WHITE_SPACE}+ { return TokenType.WHITE_SPACE; }
 <WAITING_VALUE> {VALUE} { yybegin(YYINITIAL); return BitBakeTypes.VALUE; }
 
-({CRLF}|{WHITE_SPACE})+ { return TokenType.WHITE_SPACE; }
 [^] { return TokenType.BAD_CHARACTER; }
