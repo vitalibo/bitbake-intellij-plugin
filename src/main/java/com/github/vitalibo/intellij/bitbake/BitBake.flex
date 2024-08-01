@@ -17,7 +17,6 @@ import com.intellij.psi.TokenType;
 
 CRLF=\R
 WHITE_SPACE=[\ \n\t\f]
-STR_START_CHAR=\"|\'
 VALUE_CHARACTER=[^\n\f\\\"] | "\\"{CRLF} | "\\".
 COMMENT= (("#")[^\r\n]*)
 ASSIGNMENT_OPERATOR=("="|"?="|"??="|":="|"+="|"=+"|".="|"=.")
@@ -26,6 +25,7 @@ OVERRIDE=(":" {KEY_CHARACTER}+)
 BROKEN_OVERRIDE=(":"+ {KEY_CHARACTER}+)
 FN_NAME=([\w\.\-\+\{\}\$]+)
 FN_TOKEN=({FN_NAME} {BROKEN_OVERRIDE}*)
+VALUE=(("'" {VALUE_CHARACTER}* "'") | (\" {VALUE_CHARACTER}* \"))
 
 %state WAITING_VALUE FUNCTION_NAME PY_FUNCTION_NAME PY_FUNCTION FUNCTION_VALUE INCLUDE_VALUE STATEMENT_VALUE
 
@@ -81,8 +81,7 @@ FN_TOKEN=({FN_NAME} {BROKEN_OVERRIDE}*)
 <YYINITIAL> {OVERRIDE} { return BitBakeTypes.OVERRIDE; }
 <YYINITIAL> {ASSIGNMENT_OPERATOR} { yybegin(WAITING_VALUE); return BitBakeTypes.OPERATOR; }
 <WAITING_VALUE> {WHITE_SPACE}+ { return TokenType.WHITE_SPACE; }
-<WAITING_VALUE> {STR_START_CHAR}{VALUE_CHARACTER}*{STR_START_CHAR} { yybegin(YYINITIAL); return BitBakeTypes.VALUE; }
-
+<WAITING_VALUE> {VALUE} { yybegin(YYINITIAL); return BitBakeTypes.VALUE; }
 
 ({CRLF}|{WHITE_SPACE})+ { return TokenType.WHITE_SPACE; }
 [^] { return TokenType.BAD_CHARACTER; }
