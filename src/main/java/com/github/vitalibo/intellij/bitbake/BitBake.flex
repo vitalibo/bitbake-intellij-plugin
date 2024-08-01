@@ -28,13 +28,14 @@ FN_TOKEN=({FN_NAME} {BROKEN_OVERRIDE}*)
 VALUE=(("'" {VALUE_CHARACTER}* "'") | (\" {VALUE_CHARACTER}* \"))
 
 %state WAITING_VALUE FUNCTION_NAME PY_FUNCTION_NAME PY_FUNCTION FUNCTION_VALUE INCLUDE_VALUE STATEMENT_VALUE
+%state EXPORT_STATEMENT
 
 %%
 
 <YYINITIAL> "inherit" { yybegin(INCLUDE_VALUE); return BitBakeTypes.INHERIT; }
 <YYINITIAL> "include" { yybegin(INCLUDE_VALUE); return BitBakeTypes.INCLUDE; }
 <YYINITIAL> "require" { yybegin(INCLUDE_VALUE); return BitBakeTypes.REQUIRE; }
-<YYINITIAL> "export" { return BitBakeTypes.EXPORT; }
+<YYINITIAL> "export" { yybegin(EXPORT_STATEMENT); return BitBakeTypes.EXPORT; }
 <YYINITIAL> "EXPORT_FUNCTIONS" { yybegin(INCLUDE_VALUE); return BitBakeTypes.EXPORT; }
 <YYINITIAL> addtask|deltask|addhandler|after|before { yybegin(STATEMENT_VALUE); return BitBakeTypes.STATEMENT; }
 
@@ -75,6 +76,14 @@ VALUE=(("'" {VALUE_CHARACTER}* "'") | (\" {VALUE_CHARACTER}* \"))
 <FUNCTION_VALUE> {
   ^\} { yybegin(YYINITIAL); return BitBakeTypes.RBB; }
   [^] { return BitBakeTypes.FB; }
+}
+
+<EXPORT_STATEMENT> {
+  {VALUE} { yybegin(YYINITIAL); return BitBakeTypes.VALUE; }
+  {KEY_CHARACTER}+ { return BitBakeTypes.KEY; }
+  {ASSIGNMENT_OPERATOR} { return BitBakeTypes.OPERATOR; }
+  {CRLF}+ { yybegin(YYINITIAL); return TokenType.WHITE_SPACE; }
+  [\ \t\f]+ { return TokenType.WHITE_SPACE; }
 }
 
 <YYINITIAL> {COMMENT} { return BitBakeTypes.COMMENT; }
