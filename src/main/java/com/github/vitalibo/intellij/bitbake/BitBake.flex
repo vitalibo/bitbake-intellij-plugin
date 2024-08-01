@@ -19,7 +19,7 @@ CRLF=\R
 WHITE_SPACE=[\ \n\t\f]
 STR_START_CHAR=\"|\'
 VALUE_CHARACTER=[^\n\f\\\"] | "\\"{CRLF} | "\\".
-END_OF_LINE_COMMENT= (("#")[^\r\n]*)
+COMMENT= (("#")[^\r\n]*)
 ASSIGNMENT_OPERATOR=("="|"?="|"??="|":="|"+="|"=+"|".="|"=.")
 KEY_CHARACTER=[^?=:+.\ \n\t\f\\\(\)] | "\\ "
 OVERRIDE=(":" {KEY_CHARACTER}+)
@@ -76,17 +76,13 @@ FN_TOKEN=({FN_NAME} {BROKEN_OVERRIDE}*)
   [^] { return BitBakeTypes.FB; }
 }
 
+<YYINITIAL> {COMMENT} { return BitBakeTypes.COMMENT; }
 <YYINITIAL> {KEY_CHARACTER}+ { return BitBakeTypes.KEY; }
 <YYINITIAL> {OVERRIDE} { return BitBakeTypes.OVERRIDE; }
 <YYINITIAL> {ASSIGNMENT_OPERATOR} { yybegin(WAITING_VALUE); return BitBakeTypes.OPERATOR; }
 <WAITING_VALUE> {WHITE_SPACE}+ { return TokenType.WHITE_SPACE; }
 <WAITING_VALUE> {STR_START_CHAR}{VALUE_CHARACTER}*{STR_START_CHAR} { yybegin(YYINITIAL); return BitBakeTypes.VALUE; }
 
-<YYINITIAL> {
-  ^#$ { yybegin(YYINITIAL); return BitBakeTypes.COMMENT; }
-  {END_OF_LINE_COMMENT} { yybegin(YYINITIAL); return BitBakeTypes.COMMENT; }
-}
 
-<YYINITIAL> {END_OF_LINE_COMMENT} { yybegin(YYINITIAL); return BitBakeTypes.COMMENT; }
 ({CRLF}|{WHITE_SPACE})+ { return TokenType.WHITE_SPACE; }
 [^] { return TokenType.BAD_CHARACTER; }
