@@ -15,17 +15,17 @@ import com.intellij.psi.TokenType;
 %eof{  return;
 %eof}
 
-CRLF=\R
-WHITE_SPACE=[\ \n\t\f]
-VALUE_CHARACTER=[^\n\f\\\"] | "\\"{CRLF} | "\\".
-COMMENT= (("#")[^\r\n]*)
-ASSIGNMENT_OPERATOR=("="|"?="|"??="|":="|"+="|"=+"|".="|"=.")
-KEY_CHARACTER=[^?=:+.\ \n\t\f\\\(\)] | "\\ "
-OVERRIDE=(":" {KEY_CHARACTER}+)
-BROKEN_OVERRIDE=(":"+ {KEY_CHARACTER}+)
-FN_NAME=([\w\.\-\+\{\}\$]+)
-FN_TOKEN=({FN_NAME} {BROKEN_OVERRIDE}*)
-VALUE=(("'" {VALUE_CHARACTER}* "'") | (\" {VALUE_CHARACTER}* \"))
+CRLF = \R
+WHITE_SPACE = [\ \n\t\f]
+VALUE_CHARACTER = [^\n\f\\\"] | "\\"{CRLF} | "\\".
+COMMENT = (("#")[^\r\n]*)
+ASSIGNMENT_OPERATOR = ("="|"?="|"??="|":="|"+="|"=+"|".="|"=.")
+KEY_CHARACTER = [^?=:+.\ \n\t\f\\\(\)] | "\\ "
+OVERRIDE = (":" {KEY_CHARACTER}+)
+BROKEN_OVERRIDE = (":"+ {KEY_CHARACTER}+)
+FN_NAME = ([\w\.\-\+\{\}\$]+)
+FN_TOKEN = ({FN_NAME} {BROKEN_OVERRIDE}*)
+VALUE = (("'" {VALUE_CHARACTER}* "'") | (\" {VALUE_CHARACTER}* \"))
 
 %state WAITING_VALUE FUNCTION_NAME PY_FUNCTION_NAME PY_FUNCTION FUNCTION_VALUE INCLUDE_VALUE STATEMENT_VALUE
 %state EXPORT_STATEMENT
