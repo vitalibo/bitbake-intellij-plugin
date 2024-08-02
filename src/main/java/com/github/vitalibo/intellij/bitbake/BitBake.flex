@@ -69,6 +69,7 @@ VALUE = (("'" {VALUE_CHARACTER}* "'") | (\" {VALUE_CHARACTER}* \"))
 
 <PY_FUNCTION> {
   \n\n+ { yybegin(YYINITIAL); return BitBakeTypes.RBB; }
+  <<EOF>> { yybegin(YYINITIAL); return BitBakeTypes.RBB; }
   {CRLF} | {WHITE_SPACE}+ { return TokenType.WHITE_SPACE; }
   [^] { return BitBakeTypes.FB; }
 }
