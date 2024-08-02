@@ -17,7 +17,7 @@
 }
 
 bitbakeFile ::= item_*
-private item_ ::= (variable|bbFunction|bbStatement|bbExportStatement|keyword|COMMENT|CRLF)
+private item_ ::= (variable|bbFunction|bbStatement|bbExportStatement|bbExportFuncStatement|keyword|COMMENT|CRLF)
 variable ::= (KEY OVERRIDE* OPERATOR VALUE)
 bbFunction ::= (bbBashFunction | bbPyFunction | bbDefPyFunction)
 bbBashFunction ::= (FAKEROOT? BB_FUNCTION_NAME OVERRIDE* LB RB LBB FB+ RBB)
@@ -27,3 +27,4 @@ bbDefParam ::= (BB_FUNCTION_NAME COMMA?)+
 keyword ::= (INHERIT|INCLUDE|REQUIRE) INCLUDE_REST
 bbStatement ::= (STATEMENT (STATEMENT | STATEMENT_REST))
 bbExportStatement ::= (EXPORT KEY (OPERATOR VALUE)?)
+bbExportFuncStatement ::= (EXPORT_FUNC BB_FUNCTION_NAME+)

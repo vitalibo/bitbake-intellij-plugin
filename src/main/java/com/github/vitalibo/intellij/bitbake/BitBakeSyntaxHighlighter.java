@@ -57,8 +57,13 @@ public class BitBakeSyntaxHighlighter extends SyntaxHighlighterBase {
             return COMMENT_KEYS;
         } else if (tokenType.equals(BitBakeTypes.BB_FUNCTION_NAME)) {
             return FUNCTION_NAME_KEYS;
-        } else if (tokenType.equals(BitBakeTypes.INCLUDE) || tokenType.equals(BitBakeTypes.INHERIT) || tokenType.equals(BitBakeTypes.REQUIRE)
-            || tokenType.equals(BitBakeTypes.PYTHON) || tokenType.equals(BitBakeTypes.EXPORT) || tokenType.equals(BitBakeTypes.STATEMENT)) {
+        } else if (tokenType.equals(BitBakeTypes.INCLUDE) ||
+                    tokenType.equals(BitBakeTypes.INHERIT) ||
+                    tokenType.equals(BitBakeTypes.REQUIRE) ||
+                    tokenType.equals(BitBakeTypes.PYTHON) ||
+                    tokenType.equals(BitBakeTypes.EXPORT) ||
+                    tokenType.equals(BitBakeTypes.EXPORT_FUNC) ||
+                    tokenType.equals(BitBakeTypes.STATEMENT)) {
             return KEYWORD_KEYS;
         } else if (tokenType.equals(BitBakeTypes.OVERRIDE)) {
             return KEYWORD_KEYS;
