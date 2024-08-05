@@ -44,7 +44,7 @@ VALUE = (("'" {VALUE_CHARACTER}* "'") | (\" {VALUE_CHARACTER}* \"))
 <STATEMENT_VALUE> {WHITE_SPACE}+ { return TokenType.WHITE_SPACE; }
 <STATEMENT_VALUE> [^\ \n\t\f]+ { yybegin(YYINITIAL); return BitBakeTypes.STATEMENT_REST; }
 
-<YYINITIAL> ^((python|fakeroot)\s*)*({FN_TOKEN})?\s*\(\s*\)\s*\{$  { yypushback(yylength()); yybegin(FUNCTION_NAME); }
+<YYINITIAL> ^((python|fakeroot)\s*)*({FN_TOKEN})?\s*\(\s*\)[\ \t\f]*\{$  { yypushback(yylength()); yybegin(FUNCTION_NAME); }
 <YYINITIAL> ^(def\s+)([0-9A-Za-z_-]+)(\s*\(.*\)\s*):\s*  { yypushback(yylength()); yybegin(PY_FUNCTION_NAME); }
 
 <FUNCTION_NAME> {
