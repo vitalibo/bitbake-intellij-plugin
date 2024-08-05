@@ -20,7 +20,7 @@ WHITE_SPACE = [\ \n\t\f]
 VALUE_CHARACTER = [^\n\f\\\"] | "\\"{CRLF} | "\\".
 COMMENT = (("#")[^\r\n]*)
 ASSIGNMENT_OPERATOR = ("="|"?="|"??="|":="|"+="|"=+"|".="|"=.")
-KEY_CHARACTER = [^?=:+.\ \n\t\f\\\(\)] | "\\ "
+KEY_CHARACTER = [^?=:+.\ \n\t\f\\\(\)\[\]] | "\\ "
 OVERRIDE = (":" {KEY_CHARACTER}+)
 BROKEN_OVERRIDE = (":"+ {KEY_CHARACTER}+)
 FN_NAME = ([\w\.\-\+\{\}\$]+)
@@ -29,6 +29,7 @@ VALUE = (("'" {VALUE_CHARACTER}* "'") | (\" {VALUE_CHARACTER}* \"))
 
 %state WAITING_VALUE FUNCTION_NAME PY_FUNCTION_NAME PY_FUNCTION FUNCTION_VALUE INCLUDE_VALUE STATEMENT_VALUE
 %state EXPORT_STATEMENT EXPORT_FUNC_STATEMENT
+%state LINE_WITH_FLAG FLAG
 
 %%
 
@@ -46,6 +47,7 @@ VALUE = (("'" {VALUE_CHARACTER}* "'") | (\" {VALUE_CHARACTER}* \"))
 
 <YYINITIAL> ^((python|fakeroot)\s*)*({FN_TOKEN})?\s*\(\s*\)[\ \t\f]*\{$  { yypushback(yylength()); yybegin(FUNCTION_NAME); }
 <YYINITIAL> ^(def\s+)([0-9A-Za-z_-]+)(\s*\(.*\)\s*):\s*  { yypushback(yylength()); yybegin(PY_FUNCTION_NAME); }
+<YYINITIAL> ^({KEY_CHARACTER}+ "[" .* "]" ) { yypushback(yylength()); yybegin(LINE_WITH_FLAG); }
 
 <FUNCTION_NAME> {
   "python" { return BitBakeTypes.PYTHON; }
@@ -94,8 +96,17 @@ VALUE = (("'" {VALUE_CHARACTER}* "'") | (\" {VALUE_CHARACTER}* \"))
   [\ \t\f]+ { return TokenType.WHITE_SPACE; }
 }
 
-<YYINITIAL> {COMMENT} { return BitBakeTypes.COMMENT; }
-<YYINITIAL> {KEY_CHARACTER}+ { return BitBakeTypes.KEY; }
+<LINE_WITH_FLAG> {
+  {KEY_CHARACTER}+ { return BitBakeTypes.KEY; }
+  {WHITE_SPACE}+ { return TokenType.BAD_CHARACTER; }
+  \[ { yybegin(FLAG); return BitBakeTypes.ALB; }
+}
+
+<FLAG> {
+   [\w\.\-\+]+ { return BitBakeTypes.FLAG; }
+   \] { yybegin(YYINITIAL); return BitBakeTypes.ARB; }
+}
+
 <YYINITIAL> ^{COMMENT} { return BitBakeTypes.COMMENT; }
 <YYINITIAL> ^{KEY_CHARACTER}+ { return BitBakeTypes.KEY; }
 <YYINITIAL> {OVERRIDE} { return BitBakeTypes.OVERRIDE; }

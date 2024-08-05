@@ -69,6 +69,8 @@ public class BitBakeSyntaxHighlighter extends SyntaxHighlighterBase {
             return KEYWORD_KEYS;
         } else if (tokenType.equals(BitBakeTypes.FAKEROOT)) {
             return KEYWORD_KEYS;
+        } else if (tokenType.equals(BitBakeTypes.FLAG)) {
+            return VARIABLE_VALUE_KEYS;
         } else if (tokenType.equals(TokenType.BAD_CHARACTER)) {
             return BAD_CHAR_KEYS;
         } else {
