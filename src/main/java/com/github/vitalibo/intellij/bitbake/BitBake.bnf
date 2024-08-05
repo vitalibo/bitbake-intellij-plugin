@@ -17,7 +17,7 @@
 }
 
 bitbakeFile ::= item_*
-private item_ ::= (variable|bbFunction|bbStatement|bbExportStatement|bbExportFuncStatement|keyword|COMMENT|CRLF)
+private item_ ::= (variable|bbFunction|bbStatement|bbAddTaskStatement|bbExportStatement|bbExportFuncStatement|keyword|COMMENT|CRLF)
 variable ::= (KEY (OVERRIDE+ | bbFlag)? OPERATOR VALUE)
 bbFlag ::= (ALB FLAG ARB)
 bbFunction ::= (bbBashFunction | bbPyFunction | bbDefPyFunction)
@@ -27,5 +27,8 @@ bbDefPyFunction ::= (DEF BB_FUNCTION_NAME LB bbDefParam* RB LBB FB+ RBB)
 bbDefParam ::= (BB_FUNCTION_NAME COMMA?)+
 keyword ::= (INHERIT|INCLUDE|REQUIRE) INCLUDE_REST
 bbStatement ::= (STATEMENT (STATEMENT | STATEMENT_REST))
+bbAfterStatement ::= (AFTER BB_FUNCTION_NAME+)
+bbBeforeStatement ::= (BEFORE BB_FUNCTION_NAME+)
+bbAddTaskStatement ::= (ADD_TASK BB_FUNCTION_NAME bbAfterStatement? bbBeforeStatement? bbAfterStatement?)
 bbExportStatement ::= (EXPORT KEY (OPERATOR VALUE)?)
 bbExportFuncStatement ::= (EXPORT_FUNC BB_FUNCTION_NAME+)

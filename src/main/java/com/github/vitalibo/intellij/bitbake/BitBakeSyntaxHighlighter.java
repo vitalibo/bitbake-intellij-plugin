@@ -63,7 +63,10 @@ public class BitBakeSyntaxHighlighter extends SyntaxHighlighterBase {
                     tokenType.equals(BitBakeTypes.PYTHON) ||
                     tokenType.equals(BitBakeTypes.EXPORT) ||
                     tokenType.equals(BitBakeTypes.EXPORT_FUNC) ||
-                    tokenType.equals(BitBakeTypes.STATEMENT)) {
+                    tokenType.equals(BitBakeTypes.STATEMENT) ||
+                    tokenType.equals(BitBakeTypes.ADD_TASK) ||
+                    tokenType.equals(BitBakeTypes.AFTER) ||
+                    tokenType.equals(BitBakeTypes.BEFORE)) {
             return KEYWORD_KEYS;
         } else if (tokenType.equals(BitBakeTypes.OVERRIDE)) {
             return KEYWORD_KEYS;
