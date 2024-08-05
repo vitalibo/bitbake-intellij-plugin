@@ -32,12 +32,13 @@ VALUE = (("'" {VALUE_CHARACTER}* "'") | (\" {VALUE_CHARACTER}* \"))
 
 %%
 
-<YYINITIAL> "inherit" { yybegin(INCLUDE_VALUE); return BitBakeTypes.INHERIT; }
-<YYINITIAL> "include" { yybegin(INCLUDE_VALUE); return BitBakeTypes.INCLUDE; }
-<YYINITIAL> "require" { yybegin(INCLUDE_VALUE); return BitBakeTypes.REQUIRE; }
-<YYINITIAL> "export" { yybegin(EXPORT_STATEMENT); return BitBakeTypes.EXPORT; }
-<YYINITIAL> "EXPORT_FUNCTIONS" { yybegin(EXPORT_FUNC_STATEMENT); return BitBakeTypes.EXPORT_FUNC; }
-<YYINITIAL> addtask|deltask|addhandler|after|before { yybegin(STATEMENT_VALUE); return BitBakeTypes.STATEMENT; }
+<YYINITIAL> ^"inherit" { yybegin(INCLUDE_VALUE); return BitBakeTypes.INHERIT; }
+<YYINITIAL> ^"include" { yybegin(INCLUDE_VALUE); return BitBakeTypes.INCLUDE; }
+<YYINITIAL> ^"require" { yybegin(INCLUDE_VALUE); return BitBakeTypes.REQUIRE; }
+<YYINITIAL> ^"export" { yybegin(EXPORT_STATEMENT); return BitBakeTypes.EXPORT; }
+<YYINITIAL> ^"EXPORT_FUNCTIONS" { yybegin(EXPORT_FUNC_STATEMENT); return BitBakeTypes.EXPORT_FUNC; }
+<YYINITIAL> ^(addtask|deltask|addhandler) { yybegin(STATEMENT_VALUE); return BitBakeTypes.STATEMENT; }
+<YYINITIAL> (after|before) { yybegin(STATEMENT_VALUE); return BitBakeTypes.STATEMENT; }
 
 <INCLUDE_VALUE> .+ { yybegin(YYINITIAL); return BitBakeTypes.INCLUDE_REST; }
 <STATEMENT_VALUE> {WHITE_SPACE}+ { return TokenType.WHITE_SPACE; }
@@ -95,6 +96,8 @@ VALUE = (("'" {VALUE_CHARACTER}* "'") | (\" {VALUE_CHARACTER}* \"))
 
 <YYINITIAL> {COMMENT} { return BitBakeTypes.COMMENT; }
 <YYINITIAL> {KEY_CHARACTER}+ { return BitBakeTypes.KEY; }
+<YYINITIAL> ^{COMMENT} { return BitBakeTypes.COMMENT; }
+<YYINITIAL> ^{KEY_CHARACTER}+ { return BitBakeTypes.KEY; }
 <YYINITIAL> {OVERRIDE} { return BitBakeTypes.OVERRIDE; }
 <YYINITIAL> {ASSIGNMENT_OPERATOR} { yybegin(WAITING_VALUE); return BitBakeTypes.OPERATOR; }
 <YYINITIAL> {CRLF} | {WHITE_SPACE}+ { return TokenType.WHITE_SPACE; }
