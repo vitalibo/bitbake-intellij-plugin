@@ -57,9 +57,23 @@ public class BitBakeSyntaxHighlighter extends SyntaxHighlighterBase {
             return COMMENT_KEYS;
         } else if (tokenType.equals(BitBakeTypes.BB_FUNCTION_NAME)) {
             return FUNCTION_NAME_KEYS;
-        } else if (tokenType.equals(BitBakeTypes.INCLUDE) || tokenType.equals(BitBakeTypes.INHERIT) || tokenType.equals(BitBakeTypes.REQUIRE)
-            || tokenType.equals(BitBakeTypes.PYTHON) || tokenType.equals(BitBakeTypes.EXPORT) || tokenType.equals(BitBakeTypes.STATEMENT)) {
+        } else if (tokenType.equals(BitBakeTypes.INCLUDE) ||
+                    tokenType.equals(BitBakeTypes.INHERIT) ||
+                    tokenType.equals(BitBakeTypes.REQUIRE) ||
+                    tokenType.equals(BitBakeTypes.PYTHON) ||
+                    tokenType.equals(BitBakeTypes.EXPORT) ||
+                    tokenType.equals(BitBakeTypes.EXPORT_FUNC) ||
+                    tokenType.equals(BitBakeTypes.STATEMENT) ||
+                    tokenType.equals(BitBakeTypes.ADD_TASK) ||
+                    tokenType.equals(BitBakeTypes.AFTER) ||
+                    tokenType.equals(BitBakeTypes.BEFORE)) {
             return KEYWORD_KEYS;
+        } else if (tokenType.equals(BitBakeTypes.OVERRIDE)) {
+            return KEYWORD_KEYS;
+        } else if (tokenType.equals(BitBakeTypes.FAKEROOT)) {
+            return KEYWORD_KEYS;
+        } else if (tokenType.equals(BitBakeTypes.FLAG)) {
+            return VARIABLE_VALUE_KEYS;
         } else if (tokenType.equals(TokenType.BAD_CHARACTER)) {
             return BAD_CHAR_KEYS;
         } else {

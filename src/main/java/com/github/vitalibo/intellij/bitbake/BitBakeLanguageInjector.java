@@ -32,7 +32,8 @@ public class BitBakeLanguageInjector implements LanguageInjector {
                 return;
             }
             final Language language = ((LanguageFileType) fileType).getLanguage();
-            injectionPlacesRegistrar.addPlace(language, new TextRange(0, host.getText().length()), "\n", "\n");
+            String text = host.getText();
+            injectionPlacesRegistrar.addPlace(language, new TextRange(text.indexOf('{') + 2, text.lastIndexOf('}')), "\n", "\n");
 
         } else if ((host instanceof BitBakeNativePythonFunctionImpl) || (host instanceof BitBakePythonFunctionImpl)) {
 
@@ -46,7 +47,7 @@ public class BitBakeLanguageInjector implements LanguageInjector {
                 injectionPlacesRegistrar.addPlace(language, new TextRange(0, host.getText().length()), "import oe\nimport bb\nimport os\n\n", "\n");
             } else if (host instanceof BitBakePythonFunctionImpl) {
                 String text = host.getText();
-                injectionPlacesRegistrar.addPlace(language, new TextRange(text.indexOf('{') + 2, text.lastIndexOf('}')), "import oe\nimport bb\nimport os\n\ndef name(d):", "\n");
+                injectionPlacesRegistrar.addPlace(language, new TextRange(text.indexOf('{') + 2, text.lastIndexOf('}')), "import oe\nimport bb\nimport os\n\ndef name(d):\n", "\n");
             }
         }
     }

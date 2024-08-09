@@ -17,12 +17,18 @@
 }
 
 bitbakeFile ::= item_*
-private item_ ::= (variable|bbFunction|bbStatement|keyword|COMMENT|CRLF)
-variable ::= (EXPORT? KEY OPERATOR VALUE)
+private item_ ::= (variable|bbFunction|bbStatement|bbAddTaskStatement|bbExportStatement|bbExportFuncStatement|keyword|COMMENT|CRLF)
+variable ::= (KEY (OVERRIDE+ | bbFlag)? OPERATOR VALUE)
+bbFlag ::= (ALB FLAG ARB)
 bbFunction ::= (bbBashFunction | bbPyFunction | bbDefPyFunction)
-bbBashFunction ::= (BB_FUNCTION_NAME LB RB LBB FB+ RBB)
-bbPyFunction ::= (PYTHON BB_FUNCTION_NAME? LB RB LBB FB+ RBB)
+bbBashFunction ::= (FAKEROOT? BB_FUNCTION_NAME OVERRIDE* LB RB LBB FB+ RBB)
+bbPyFunction ::= (FAKEROOT? PYTHON (BB_FUNCTION_NAME OVERRIDE*)? LB RB LBB FB+ RBB)
 bbDefPyFunction ::= (DEF BB_FUNCTION_NAME LB bbDefParam* RB LBB FB+ RBB)
 bbDefParam ::= (BB_FUNCTION_NAME COMMA?)+
-keyword ::= (INHERIT|INCLUDE|REQUIRE|EXPORT) INCLUDE_REST
+keyword ::= (INHERIT|INCLUDE|REQUIRE) INCLUDE_REST
 bbStatement ::= (STATEMENT (STATEMENT | STATEMENT_REST))
+bbAfterStatement ::= (AFTER BB_FUNCTION_NAME+)
+bbBeforeStatement ::= (BEFORE BB_FUNCTION_NAME+)
+bbAddTaskStatement ::= (ADD_TASK BB_FUNCTION_NAME bbAfterStatement? bbBeforeStatement? bbAfterStatement?)
+bbExportStatement ::= (EXPORT KEY (OPERATOR VALUE)?)
+bbExportFuncStatement ::= (EXPORT_FUNC BB_FUNCTION_NAME+)
